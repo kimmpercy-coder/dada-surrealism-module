@@ -1,0 +1,109 @@
+{
+  "lensValues": [
+    "historical",
+    "social",
+    "artist",
+    "medium"
+  ],
+  "mediumValues": [
+    "painting",
+    "periodical",
+    "photography",
+    "visual art",
+    "writing"
+  ],
+  "typeValues": [
+    "hub",
+    "method",
+    "place",
+    "source"
+  ],
+  "linkTypes": [
+    "mentions"
+  ],
+  "nodes": [
+    {
+      "id": "index",
+      "slug": "",
+      "title": "Dada and Surrealism: a test wiki",
+      "type": "hub",
+      "dates": "",
+      "lens": [],
+      "medium": [],
+      "sensitivity": [],
+      "url": "../"
+    },
+    {
+      "id": "ready-made",
+      "slug": "methods/ready-made",
+      "title": "Ready-made",
+      "type": "method",
+      "dates": "1913–1919",
+      "lens": [
+        "artist",
+        "medium"
+      ],
+      "medium": [
+        "visual art"
+      ],
+      "sensitivity": [],
+      "url": "../methods/ready-made.html"
+    },
+    {
+      "id": "291-new-york",
+      "slug": "places/291-new-york",
+      "title": "291 (gallery and journal, New York)",
+      "type": "place",
+      "dates": "1905–1917 (gallery; the journal *Camera Work* was renamed *291* in 1915). Verify the gallery dates.",
+      "lens": [
+        "social",
+        "historical"
+      ],
+      "medium": [
+        "photography",
+        "painting",
+        "periodical"
+      ],
+      "sensitivity": [],
+      "url": "../places/291-new-york.html"
+    },
+    {
+      "id": "richter-dada-art-and-anti-art",
+      "slug": "sources/richter-dada-art-and-anti-art",
+      "title": "Dada: Art and Anti-Art (Hans Richter)",
+      "type": "source",
+      "dates": "1964 (German original), 1965 (English edition), 1997 (copyright page reprint)",
+      "lens": [
+        "historical",
+        "artist"
+      ],
+      "medium": [
+        "writing"
+      ],
+      "sensitivity": [],
+      "url": "../sources/richter-dada-art-and-anti-art.html"
+    }
+  ],
+  "edges": [
+    {
+      "source": "ready-made",
+      "target": "richter-dada-art-and-anti-art",
+      "type": "mentions"
+    },
+    {
+      "source": "291-new-york",
+      "target": "richter-dada-art-and-anti-art",
+      "type": "mentions"
+    },
+    {
+      "source": "richter-dada-art-and-anti-art",
+      "target": "ready-made",
+      "type": "mentions"
+    },
+    {
+      "source": "richter-dada-art-and-anti-art",
+      "target": "291-new-york",
+      "type": "mentions"
+    }
+  ]
+}
