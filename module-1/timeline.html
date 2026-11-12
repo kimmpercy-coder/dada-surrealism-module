@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<title>Industrial Revolution: Impacts and consequences for Art Design &amp; Culture</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root {
+  --bg: #fafafa;
+  --card: #ffffff;
+  --ink: #262626;
+  --muted: #737373;
+  --line: #dbdbdb;
+  --accent: #d62976;
+  --grad: linear-gradient(90deg, #feda75 0%, #fa7e1e 25%, #d62976 50%, #962fbf 75%, #4f5bd5 100%);
+  --modern: #4f5bd5;
+  --post: #d62976;
+  --meta: #fa7e1e;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  padding: 20px max(16px, env(safe-area-inset-left, 0px)) 28px max(16px, env(safe-area-inset-right, 0px));
+}
+.eyebrow {
+  font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--muted); margin: 0 0 4px;
+}
+h1 {
+  font-size: clamp(1.5rem, 4.5vw, 2.1rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin: 0 0 8px;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+}
+.intro { color: var(--muted); max-width: 62ch; margin: 0 0 16px; font-size: 0.95rem; }
+.controls { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; align-items: center; }
+.ctl-label {
+  font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--muted); margin-right: 4px;
+}
+.chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 14px; border-radius: 999px;
+  background: var(--card); border: 1px solid var(--line);
+  font-size: 0.9rem; cursor: pointer; user-select: none;
+}
+.chip input { accent-color: var(--accent); width: 16px; height: 16px; margin: 0; }
+.chip:has(input:checked) { border-color: var(--accent); }
+.legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); margin: 6px 0 12px; }
+.swatch { display: inline-block; vertical-align: middle; margin-right: 6px; }
+.swatch.pill { width: 26px; height: 10px; border-radius: 999px; background: var(--grad); }
+.swatch.dot { width: 10px; height: 10px; border-radius: 50%; background: var(--ink); }
+.swatch.line { width: 26px; height: 3px; border-radius: 2px; background: var(--ink); }
+.swatch.band { width: 26px; height: 10px; border-radius: 3px; background: #ededed; }
+
+.scroller {
+  overflow-x: auto; overflow-y: hidden;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  -webkit-overflow-scrolling: touch;
+}
+.track { position: relative; }
+.axis { position: relative; height: 36px; border-bottom: 1px solid var(--line); z-index: 1; }
+.tick { position: absolute; top: 0; bottom: 0; width: 1px; background: #f0f0f0; }
+.tick span {
+  position: absolute; top: 10px; left: 5px;
+  font-size: 0.75rem; color: var(--muted); white-space: nowrap;
+}
+.tick.major { background: #e4e4e4; }
+.tick.major span { color: var(--ink); font-weight: 700; }
+
+/* Period bands run behind every lane, so the theoretical context sits along the whole timeline. */
+.bands { position: absolute; top: 0; bottom: 0; left: 0; right: 0; pointer-events: none; z-index: 0; }
+.bands[hidden] { display: none; }
+.band {
+  position: absolute; top: 0; bottom: 0;
+  border-left: 1px dashed rgba(0,0,0,0.12);
+  border-right: 1px dashed rgba(0,0,0,0.12);
+}
+.band.modern { background: rgba(79, 91, 213, 0.06); }
+.band.post { background: rgba(214, 41, 118, 0.06); }
+.band.meta { background: rgba(250, 126, 30, 0.07); }
+
+.lane { position: relative; padding: 8px 0 16px; z-index: 1; }
+.lane[hidden] { display: none; }
+.lane-title {
+  position: sticky; left: 0; display: inline-block;
+  margin: 6px 14px 4px; padding: 0 6px 0 0;
+  font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--muted);
+  background: transparent; z-index: 2;
+}
+.rows { position: relative; }
+
+.period {
+  position: absolute; height: 28px; top: 4px;
+  border: 0; margin: 0; padding: 0 12px;
+  color: #fff; font-family: inherit; font-size: 0.85rem; font-weight: 700;
+  line-height: 28px; white-space: nowrap; border-radius: 8px;
+  text-align: left; cursor: pointer;
+}
+.period.modern { background: var(--modern); }
+.period.post { background: var(--post); }
+.period.meta { background: var(--meta); }
+
+.item {
+  position: absolute; height: 26px;
+  border: 0; margin: 0; padding: 0;
+  background: none; cursor: pointer; text-align: left; white-space: nowrap;
+  font-family: inherit; font-size: 0.85rem; line-height: 26px;
+  color: var(--ink); font-weight: 600;
+}
+.item.bar {
+  background: var(--grad); color: #fff;
+  border-radius: 999px; padding: 0 12px;
+  box-shadow: 0 2px 6px rgba(214, 41, 118, 0.18);
+}
+.item.point { padding-left: 18px; font-weight: 500; }
+.item.point::before {
+  content: ""; position: absolute; left: 0; top: 8px;
+  width: 10px; height: 10px; border-radius: 50%; background: var(--ink);
+}
+.item.range {
+  border-top: 3px solid var(--ink); border-radius: 2px;
+  height: 22px; line-height: 14px; padding-top: 4px;
+  font-weight: 500;
+}
+.item:focus-visible, .item:hover, .item.pinned, .period:focus-visible, .period:hover, .period.pinned {
+  outline: 2px solid var(--accent); outline-offset: 2px; z-index: 5;
+}
+.item.bar:hover, .item.bar.pinned { filter: brightness(1.05); }
+
+.tip {
+  position: fixed; z-index: 20;
+  max-width: min(300px, calc(100vw - 32px));
+  background: #fff; color: var(--ink);
+  border: 1px solid var(--line); border-radius: 14px;
+  padding: 12px 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.14);
+  pointer-events: none; opacity: 0; transition: opacity 120ms;
+}
+.tip.show { opacity: 1; }
+.t-kind { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin: 0 0 4px; }
+.t-name { font-size: 1rem; font-weight: 700; margin: 0 0 2px; }
+.t-dates { font-size: 0.85rem; color: var(--muted); margin: 0 0 6px; }
+.t-desc { font-size: 0.9rem; margin: 0; line-height: 1.45; }
+.hint { color: var(--muted); font-size: 0.82rem; margin: 14px 0 0; max-width: 70ch; }
+@media (prefers-reduced-motion: reduce) { .tip { transition: none; } }
+</style>
+</head>
+<body>
+
+<p class="eyebrow">Interactive timeline</p>
+<h1>Industrial Revolution: Impacts and consequences for Art Design &amp; Culture</h1>
+<p class="intro">The shaded bands are the theoretical periods, running behind the whole timeline. Movements are the coloured bars and historical events are the dots. Hover or tap for dates and a short description. Scroll sideways from the Industrial Revolution to the present.</p>
+
+<div class="controls" role="group" aria-label="Show or hide lanes">
+  <span class="ctl-label">Show</span>
+  <label class="chip"><input type="checkbox" id="show-period" checked> Theoretical periods</label>
+  <label class="chip"><input type="checkbox" id="show-move" checked> Art and design movements</label>
+  <label class="chip"><input type="checkbox" id="show-event" checked> Historical events</label>
+</div>
+
+<div class="legend" aria-hidden="true">
+  <span><span class="swatch band"></span>Period (background band)</span>
+  <span><span class="swatch pill"></span>Movement (active span)</span>
+  <span><span class="swatch dot"></span>Event (single date)</span>
+  <span><span class="swatch line"></span>Event (period)</span>
+</div>
+
+<div class="scroller" id="scroller">
+  <div class="track" id="track">
+    <div class="bands" id="bands"></div>
+    <div class="axis" id="axis"></div>
+    <div class="lane" id="lane-period" aria-label="Theoretical periods">
+      <p class="lane-title">Theoretical periods</p>
+      <div class="rows" id="rows-period"></div>
+    </div>
+    <div class="lane" id="lane-move" aria-label="Art and design movements">
+      <p class="lane-title">Movements</p>
+      <div class="rows" id="rows-move"></div>
+    </div>
+    <div class="lane" id="lane-event" aria-label="Historical events">
+      <p class="lane-title">Historical events</p>
+      <div class="rows" id="rows-event"></div>
+    </div>
+  </div>
+</div>
+
+<p class="hint">Periods are a theoretical framing for discussion, not settled dates. Their boundaries overlap in the literature, and Metamodernism is a contested, recent label proposed in 2010. Dates are approximate where a movement has no agreed start or end. Check each entry against the sources you cite before teaching.</p>
+
+<div class="tip" id="tip" role="tooltip"></div>
+
+<script>
+const START = 1750, END = 2026, PX = 8;
+const X = y => (y - START) * PX;
+
+// Theoretical periods: a background frame that runs along the whole timeline.
+const PERIODS = [
+  { name: "Modernism", start: 1860, end: 1970, cls: "modern", dates: "c. 1860 to c. 1970",
+    desc: "A frame for art and design that broke with tradition and looked to new forms, materials and the machine. Its belief in progress and originality is what later critics questioned. Its start and end depend on which movements count." },
+  { name: "Postmodernism", start: 1970, end: 2005, cls: "post", dates: "c. 1970 to c. 2005",
+    desc: "Doubted grand narratives and originality, and embraced irony, pastiche, appropriation and the mixing of high and popular culture. Its end point is debated." },
+  { name: "Metamodernism", start: 2005, end: 2026, cls: "meta", dates: "c. 2005 onwards (term proposed in 2010)",
+    desc: "Proposed by Vermeulen and van den Akker in 2010 as a structure of feeling that swings between modernist sincerity and postmodern irony. A contested and recent label." }
+];
+
+const MOVEMENTS = [
+  { name: "Arts & Crafts", start: 1860, end: 1910, dates: "c. 1860 to 1910",
+    desc: "A response to the effects of industrial production on craft and work. William Morris championed handmade objects, natural materials and design that was both useful and beautiful." },
+  { name: "Japonisme", start: 1867, end: 1900, dates: "From 1867; peak to c. 1900",
+    desc: "Western artists absorbed Japanese woodblock prints and their flat colour and bold outlines. Van Gogh is the best-known example." },
+  { name: "Art Nouveau", start: 1890, end: 1910, dates: "1890 to 1910",
+    desc: "“New Art”. Floral and organic forms, stained glass, new materials and exotic influences, breaking away from historical styles." },
+  { name: "Futurism", start: 1909, end: 1916, dates: "1909 onwards; main phase to c. 1916",
+    desc: "Italian movement that celebrated speed, machines and the modern city, launched by Marinetti's manifesto in 1909." },
+  { name: "Cubism", start: 1907, end: 1914, dates: "Invented c. 1907 to 1908; main phase to 1914",
+    desc: "Picasso and Braque showed several views of a subject in one picture, so the forms look fragmented and abstracted." },
+  { name: "Abstraction", start: 1910, end: 2026, dates: "c. 1910 onwards, continuing",
+    desc: "Art that drops recognisable subjects in favour of colour, line and form. Kandinsky and others pioneered it around 1910, and it remains a central mode of practice." },
+  { name: "Art Deco", start: 1910, end: 1939, dates: "Early 20th century; peak in the 1920s and 1930s",
+    desc: "Geometric shapes, stylised figures and motifs drawn from many cultures. Named after the 1925 Paris exhibition, though the name was coined later." },
+  { name: "Bauhaus", start: 1919, end: 1933, dates: "1919 to 1933 (school)",
+    desc: "A German school that tried to unite art, craft and industrial production. Its functional, simplified style shaped modern design far beyond Germany." },
+  { name: "Constructivism", start: 1915, end: 1934, dates: "c. 1915 to 1934",
+    desc: "Emerged in Russia, especially after the 1917 Revolution. Abstract geometric forms and typography used to serve social and political change." },
+  { name: "Dada", start: 1916, end: 1924, dates: "1916 to c. 1924",
+    desc: "Founded at the Cabaret Voltaire in Zurich. Sound poems, collage, photomontage and the ready-made, spreading to Berlin, Cologne, Paris and New York." },
+  { name: "Surrealism", start: 1924, end: 1966, dates: "1924 onwards; Breton died in 1966",
+    desc: "Breton's first manifesto in 1924. Dreams, the unconscious, chance and collage, growing out of Dada and continuing well beyond the war." },
+  { name: "Pop Art", start: 1955, end: 1970, dates: "c. 1955 to c. 1970",
+    desc: "Drew on advertising, comics and mass-produced imagery, questioning the boundary between fine art and consumer culture. Some historians treat it as the first postmodern art." },
+  { name: "Minimalism", start: 1960, end: 1975, dates: "c. 1960 to c. 1975",
+    desc: "Reduced form, repeated units and industrial materials, with the viewer's experience of the object at the centre. Donald Judd and Carl Andre are key figures." },
+  { name: "Conceptualism", start: 1965, end: 1975, dates: "c. 1965 to c. 1975",
+    desc: "The idea behind the work became more important than its physical form. Sol LeWitt's 1967 essay on conceptual art is a common reference point." },
+  { name: "Street art", start: 1970, end: 2026, dates: "c. 1970s onwards, continuing",
+    desc: "From New York graffiti of the 1970s to stencils, murals and Banksy. It moved art into public space and often challenged ownership of the city." },
+  { name: "Deconstructivism", start: 1988, end: 2000, dates: "1988 exhibition; main phase to c. 2000",
+    desc: "An architectural style named after the 1988 MoMA exhibition Deconstructivist Architecture. Fragmented, tilted forms that questioned the order of modernist building." },
+  { name: "Digital art", start: 1960, end: 2026, dates: "Early computer art from the 1960s; mainstream from c. 2010",
+    desc: "Art made with computers, networks and code. Early computer art dates from the 1960s, but the generative and online work discussed here is mainly from the 2010s." }
+];
+
+const EVENTS = [
+  { name: "Industrial Revolution", start: 1760, end: 1840, dates: "c. 1760 to 1840",
+    desc: "Mechanised production spread from Britain. Factories, urban growth and mass-produced goods changed work and design, and craft reformers responded to these effects." },
+  { name: "French Revolution", start: 1789, dates: "1789 to 1799",
+    desc: "Overthrew the French monarchy. Its ideas of liberty and citizenship shaped the politics of later avant-garde artists." },
+  { name: "Great Exhibition, London", start: 1851, dates: "1 May to 15 October 1851",
+    desc: "World fair at the Crystal Palace showing industrial manufacture. Many critics thought the goods were ugly, which fed the Arts & Crafts reaction." },
+  { name: "Paris World Exposition", start: 1867, dates: "1867",
+    desc: "Japanese art was shown to Western audiences in Paris, one of the starting points for Japonisme." },
+  { name: "Exposition Universelle, Paris", start: 1889, dates: "1889",
+    desc: "World fair that introduced the Eiffel Tower. Art Nouveau was at its height, and new materials and the modern city were on show." },
+  { name: "Revolution in Russia", start: 1905, dates: "1905",
+    desc: "Uprising against the Tsar that forced concessions. Revolutionary ideas spread among Russian artists and writers." },
+  { name: "Armory Show, New York", start: 1913, dates: "February to March 1913",
+    desc: "International modern art exhibition that introduced many American visitors to European modernism, including Cubism and Duchamp." },
+  { name: "First World War", start: 1914, end: 1918, dates: "28 July 1914 to 11 November 1918",
+    desc: "Europe's first industrial war. Millions died, and conscription and exile shaped where artists could live and work." },
+  { name: "Cabaret Voltaire opens", start: 1916, dates: "February 1916",
+    desc: "Hugo Ball and Emmy Hennings open the club in neutral Zurich. Dada begins there, with performances of poems, music and painting." },
+  { name: "October Revolution", start: 1917, dates: "November 1917 (October in the Russian calendar)",
+    desc: "The Bolsheviks take power in Russia. Constructivists and other avant-garde artists later tie their work to the new state." },
+  { name: "Spanish flu pandemic", start: 1918, end: 1920, dates: "1918 to 1920",
+    desc: "A global influenza pandemic that killed millions. It ran alongside the end of the war and the postwar settlement." },
+  { name: "Treaty of Versailles; Weimar Republic", start: 1919, dates: "28 June 1919; constitution adopted August 1919",
+    desc: "The peace settlement placed the blame for the war on Germany and imposed reparations. The Weimar Republic began in the same year." },
+  { name: "Bauhaus closed", start: 1933, dates: "1933 (Nazi government closes the school)",
+    desc: "The Nazi government closes the Bauhaus, and many of its teachers leave Germany. Its ideas spread to the United States and elsewhere." },
+  { name: "First International Dada Fair, Berlin", start: 1920, dates: "June to August 1920",
+    desc: "Berlin Dada's major exhibition, with collage, photomontage and satirical works attacking the German state and its militarism." },
+  { name: "German hyperinflation", start: 1923, dates: "1922 to 1923",
+    desc: "Money lost almost all of its value, causing widespread hardship in Germany. Political tension grew during the same period." },
+  { name: "Exposition des Arts Décoratifs, Paris", start: 1925, dates: "1925",
+    desc: "The exhibition that gave Art Deco its name. Modern design in furniture, fashion, textiles and architecture was on display." },
+  { name: "Wall Street Crash", start: 1929, dates: "October 1929",
+    desc: "The share market collapse that began the Great Depression, with unemployment and poverty across the industrial world." },
+  { name: "Nazis take power", start: 1933, dates: "January 1933 (Hitler becomes Chancellor)",
+    desc: "The Nazi government comes to power and starts to suppress modern art in Germany." },
+  { name: "Socialist Realism", start: 1934, dates: "1934 onwards",
+    desc: "Official Soviet art policy. Constructivist and avant-garde art is pushed out in favour of realist images of the state." },
+  { name: "Fantastic Art, Dada, Surrealism", start: 1936, dates: "December 1936 to January 1937",
+    desc: "MoMA exhibition in New York that introduced many American audiences to Dada and Surrealism." },
+  { name: "Spanish Civil War; Guernica", start: 1936, end: 1939, dates: "1936 to 1939 (Guernica painted 1937)",
+    desc: "Civil war in Spain. Picasso's painting Guernica responds to the bombing of the Basque town in 1937." },
+  { name: "“Degenerate Art” exhibition, Munich", start: 1937, dates: "July 1937",
+    desc: "Nazi exhibition that mocked modern art, showing many avant-garde works as examples of what it called degenerate art." },
+  { name: "Second World War", start: 1939, end: 1945, dates: "1 September 1939 to 2 September 1945",
+    desc: "Germany invades Poland. Many Surrealists and other artists flee occupied Europe, and many settle in New York." },
+  { name: "Holocaust", start: 1941, end: 1945, dates: "1941 to 1945",
+    desc: "The systematic murder of six million Jewish people and millions of others by Nazi Germany and its collaborators." },
+  { name: "Hiroshima and Nagasaki", start: 1945, dates: "6 and 9 August 1945",
+    desc: "The first and only use of nuclear weapons in war. Their destruction changed how the postwar world understood violence and progress." },
+  { name: "Cold War", start: 1947, end: 1991, dates: "c. 1947 to 1991",
+    desc: "Rivalry between the United States and the Soviet Union. Abstract art was promoted in the West and realism in the Soviet bloc." },
+  { name: "May 1968 protests", start: 1968, dates: "May 1968",
+    desc: "Student and worker protests across France and beyond. Artists and designers made posters and slogans for the movement." },
+  { name: "The Dinner Party", start: 1974, end: 1979, dates: "Made 1974 to 1979",
+    desc: "Judy Chicago's installation honouring women in history. It became one of the defining works of feminist art." },
+  { name: "Berlin Wall falls", start: 1989, dates: "9 November 1989",
+    desc: "The border between East and West Berlin opens. The event is widely taken to mark the end of the Cold War in Europe." },
+  { name: "Soviet Union dissolved", start: 1991, dates: "December 1991",
+    desc: "The USSR ends, and the former Soviet republics become independent states. Constructivism is reassessed in the new Russia." },
+  { name: "Destino released", start: 2003, dates: "2003",
+    desc: "Disney's animated short, conceived in 1945 by Walt Disney and Salvador Dalí, finally completed and released." },
+  { name: "Global financial crisis", start: 2008, dates: "September 2008 onwards",
+    desc: "Collapse of major banks and the start of a global recession. Art and design markets and public funding were both affected." },
+  { name: "Banksy's shredded painting", start: 2018, dates: "October 2018",
+    desc: "A canvas sold at auction in London was partly shredded seconds after the sale. Its value rose, raising questions about art as commodity." },
+  { name: "COVID-19 pandemic", start: 2020, end: 2022, dates: "March 2020 onwards",
+    desc: "Lockdowns moved exhibitions, teaching and studio practice online, accelerating digital platforms for art and design." },
+  { name: "Generative image tools go public", start: 2022, dates: "2022",
+    desc: "AI image generators reach the public, raising new questions about authorship, originality and the role of the designer." }
+];
+
+const ROW_H = 34;
+const tip = document.getElementById("tip");
+let pinned = null;
+
+function showTip(el, it, kindLabel) {
+  tip.innerHTML = "";
+  const kind = document.createElement("p"); kind.className = "t-kind";
+  kind.textContent = kindLabel;
+  const name = document.createElement("p"); name.className = "t-name"; name.textContent = it.name;
+  const dates = document.createElement("p"); dates.className = "t-dates"; dates.textContent = it.dates;
+  const desc = document.createElement("p"); desc.className = "t-desc"; desc.textContent = it.desc;
+  tip.append(kind, name, dates, desc);
+  tip.classList.add("show");
+  const r = el.getBoundingClientRect();
+  const tw = tip.offsetWidth, th = tip.offsetHeight;
+  const left = Math.min(Math.max(8, r.left), window.innerWidth - tw - 8);
+  let top = r.bottom + 8;
+  if (top + th > window.innerHeight - 8) top = Math.max(8, r.top - th - 8);
+  tip.style.left = left + "px";
+  tip.style.top = top + "px";
+}
+function hideTip() { if (!pinned) tip.classList.remove("show"); }
+
+function bindTip(b, it, kindLabel) {
+  b.addEventListener("mouseenter", () => { if (!pinned) showTip(b, it, kindLabel); });
+  b.addEventListener("mouseleave", hideTip);
+  b.addEventListener("focus", () => { if (!pinned) showTip(b, it, kindLabel); });
+  b.addEventListener("blur", hideTip);
+  b.addEventListener("click", e => {
+    e.stopPropagation();
+    if (pinned) pinned.classList.remove("pinned");
+    if (pinned === b) { pinned = null; tip.classList.remove("show"); return; }
+    pinned = b; b.classList.add("pinned"); showTip(b, it, kindLabel);
+  });
+}
+
+// Pack items into rows so that labels never overlap.
+function pack(items, kindOf, labelWidth) {
+  const rows = [];
+  items.forEach(it => {
+    const left = X(it.start);
+    const kind = kindOf(it);
+    const barW = it.end ? (it.end - it.start) * PX : 0;
+    const width = Math.max(barW, labelWidth(it));
+    let r = rows.findIndex(end => end <= left - 6);
+    if (r < 0) { rows.push(0); r = rows.length - 1; }
+    rows[r] = left + width;
+    it.left = left; it.width = width; it.row = r; it.kind = kind;
+  });
+  return rows.length;
+}
+
+function renderItems(rowsId, items, rowCount, kindLabel) {
+  const rowsEl = document.getElementById(rowsId);
+  rowsEl.innerHTML = "";
+  rowsEl.style.height = (rowCount * ROW_H + 8) + "px";
+  items.forEach(it => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "item " + it.kind;
+    b.textContent = it.name;
+    b.style.left = it.left + "px";
+    b.style.top = (it.row * ROW_H + 2) + "px";
+    b.style.width = it.kind === "point" ? "auto" : it.width + "px";
+    b.setAttribute("aria-label", it.name + ". " + it.dates + ". " + it.desc);
+    bindTip(b, it, kindLabel);
+    rowsEl.appendChild(b);
+  });
+}
+
+// Axis
+const axis = document.getElementById("axis");
+for (let y = START; y <= END; y += 10) {
+  const t = document.createElement("div");
+  t.className = "tick" + (y % 50 === 0 ? " major" : "");
+  t.style.left = X(y) + "px";
+  const s = document.createElement("span");
+  s.textContent = y;
+  if (y % 50 !== 0) s.style.display = "none";
+  t.appendChild(s);
+  axis.appendChild(t);
+}
+const width = X(END) + 160;
+axis.style.width = width + "px";
+document.getElementById("track").style.width = width + "px";
+["rows-period", "rows-move", "rows-event"].forEach(id => {
+  document.getElementById(id).style.width = width + "px";
+});
+
+// Period bands behind the whole timeline
+const bandsEl = document.getElementById("bands");
+PERIODS.forEach(p => {
+  const d = document.createElement("div");
+  d.className = "band " + p.cls;
+  d.style.left = X(p.start) + "px";
+  d.style.width = (p.end - p.start) * PX + "px";
+  bandsEl.appendChild(d);
+});
+
+// Period lane: one contiguous strip, labelled, with its own tooltip.
+const periodsEl = document.getElementById("rows-period");
+periodsEl.style.height = (ROW_H + 8) + "px";
+PERIODS.forEach(p => {
+  const b = document.createElement("button");
+  b.type = "button";
+  b.className = "period " + p.cls;
+  b.textContent = p.name;
+  b.style.left = X(p.start) + "px";
+  b.style.width = (p.end - p.start) * PX + "px";
+  b.setAttribute("aria-label", p.name + ". " + p.dates + ". " + p.desc);
+  bindTip(b, p, "Theoretical period");
+  periodsEl.appendChild(b);
+});
+
+// Movements and events
+const moveLabel = it => it.name.length * 8.4 + 26;
+const eventLabel = it => it.name.length * 7.2 + 26;
+const moveRows = pack(MOVEMENTS, () => "bar", moveLabel);
+const eventRows = pack(EVENTS, it => it.end ? "range" : "point", eventLabel);
+renderItems("rows-move", MOVEMENTS, moveRows, "Movement");
+renderItems("rows-event", EVENTS, eventRows, "Historical event");
+
+// Lane toggles
+const showPeriod = document.getElementById("show-period");
+const showMove = document.getElementById("show-move");
+const showEvent = document.getElementById("show-event");
+showPeriod.addEventListener("change", () => {
+  document.getElementById("lane-period").hidden = !showPeriod.checked;
+  bandsEl.hidden = !showPeriod.checked;
+});
+showMove.addEventListener("change", () => { document.getElementById("lane-move").hidden = !showMove.checked; });
+showEvent.addEventListener("change", () => { document.getElementById("lane-event").hidden = !showEvent.checked; });
+
+// Tap outside to dismiss a pinned tip
+document.addEventListener("click", () => {
+  if (pinned) { pinned.classList.remove("pinned"); pinned = null; }
+  tip.classList.remove("show");
+});
+document.getElementById("scroller").addEventListener("scroll", () => {
+  if (pinned) { pinned.classList.remove("pinned"); pinned = null; }
+  tip.classList.remove("show");
+});
+</script>
+</body>
+</html>
