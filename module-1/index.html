@@ -89,19 +89,19 @@ svg .dot:hover{stroke:var(--ink)}
 
     <main>
       <div class="tabs" role="group" aria-label="View">
-        <button class="tab" id="v-list" type="button" aria-pressed="true">List</button>
-        <button class="tab" id="v-graph" type="button" aria-pressed="false">Graph</button>
+        <button class="tab" id="v-list" type="button" aria-pressed="true" hidden>List</button>
+        <button class="tab" id="v-graph" type="button" aria-pressed="false" hidden>Graph</button>
         <input class="search" id="search" type="search" placeholder="Search notes" aria-label="Search notes">
       </div>
       <p class="count" id="count"></p>
 
-      <section id="note" hidden></section>
-
-      <ul class="list" id="list"></ul>
-      <div class="graph-box" id="graph-box" hidden>
+      <div class="graph-box" id="graph-box">
         <svg id="graph" viewBox="0 0 900 560" role="img" aria-label="Graph of linked notes"></svg>
         <div class="legend" id="legend"></div>
       </div>
+      <section id="note" hidden></section>
+
+      <ul class="list" id="list"></ul>
 
       <p class="hint">Videos and PDFs are on Canvas. Canvas page links are placeholders until they are pasted into the CANVAS object at the top of this page's script. Entries marked Draft still need sources before they are taught. Dates are approximate where a movement has no agreed start or end.</p>
     </main>
@@ -285,6 +285,7 @@ const NODES = [
   links:[{to:"destino",rel:"mentions",text:"The film in this wiki."}] }
 ];
 
+NODES.forEach(n => { n.links = n.links || []; n.sources = n.sources || []; });
 const byId = Object.fromEntries(NODES.map(n => [n.id, n]));
 const state = { topic:new Set(), lens:new Set(), medium:new Set(), type:new Set(), q:"", view:"list" };
 const pos = {};
@@ -432,7 +433,8 @@ function refresh(){
   const shown = NODES.filter(visible);
   const notes = shown.filter(n => n.type !== "hub").length;
   el("count").textContent = `${notes} of ${NODES.length - 1} notes shown`;
-  if (state.view === "list") renderList(shown); else renderGraph(shown);
+  renderList(shown);
+  renderGraph(shown);
 }
 
 function route(){
@@ -445,8 +447,8 @@ function setView(v){
   state.view = v;
   el("v-list").setAttribute("aria-pressed", v === "list");
   el("v-graph").setAttribute("aria-pressed", v === "graph");
-  el("list").hidden = v !== "list";
-  el("graph-box").hidden = v !== "graph";
+  el("list").hidden = false;
+  el("graph-box").hidden = false;
   refresh();
 }
 
