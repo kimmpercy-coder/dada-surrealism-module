@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<title>Module 1 Wiki: Art as Social Change</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{
+  --bg:#fafafa; --card:#fff; --ink:#262626; --muted:#737373; --line:#dbdbdb; --soft:#f0f0f0;
+  --accent:#d62976; --grad:linear-gradient(90deg,#feda75 0%,#fa7e1e 25%,#d62976 50%,#962fbf 75%,#4f5bd5 100%);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;padding:20px 16px 48px}
+.wrap{max-width:1120px;margin:0 auto}
+.eyebrow{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:0 0 4px}
+h1{font-size:clamp(1.6rem,5vw,2.3rem);font-weight:800;letter-spacing:-.02em;line-height:1.15;margin:0 0 8px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;display:inline-block}
+.intro{color:var(--muted);max-width:70ch;margin:0 0 18px;font-size:.95rem}
+.layout{display:grid;grid-template-columns:250px 1fr;gap:18px;align-items:start}
+@media(max-width:820px){.layout{grid-template-columns:1fr}}
+aside{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 14px 12px;position:sticky;top:12px}
+aside h2{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:12px 0 6px}
+aside h2:first-child{margin-top:0}
+.opt{display:flex;gap:8px;align-items:center;padding:3px 0;font-size:.9rem;cursor:pointer}
+.opt input{accent-color:var(--accent);margin:0}
+.swatch{width:10px;height:10px;border-radius:50%;display:inline-block}
+button.clear{margin-top:12px;width:100%;padding:8px 12px;border-radius:999px;border:1px solid var(--line);background:var(--soft);font:inherit;font-size:.85rem;cursor:pointer}
+main{min-width:0}
+.tabs{display:flex;gap:8px;margin:0 0 10px;flex-wrap:wrap;align-items:center}
+.tab{padding:7px 16px;border-radius:999px;border:1px solid var(--line);background:var(--card);font:inherit;font-size:.9rem;cursor:pointer}
+.tab[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.search{flex:1 1 220px;max-width:340px;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--card);font:inherit;font-size:.9rem}
+.search:focus,button:focus,a:focus,summary:focus{outline:2px solid var(--accent);outline-offset:2px}
+.count{color:var(--muted);font-size:.85rem;margin:4px 0 10px}
+.note{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px 20px;margin:0 0 16px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.note.hub{border:2px solid transparent;background:linear-gradient(var(--card),var(--card)) padding-box,var(--grad) border-box}
+.note .top{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:6px}
+.note h2{font-size:1.45rem;font-weight:800;letter-spacing:-.01em;line-height:1.2;margin:4px 0 2px}
+.dates{color:var(--muted);font-size:.86rem;margin:0 0 10px}
+.note p.body{margin:0 0 10px;max-width:72ch}
+.note h3{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:14px 0 6px}
+.note ul{margin:0;padding-left:18px;font-size:.93rem}
+.note li{margin:4px 0}
+.note .close{float:right;font:inherit;font-size:.85rem;padding:5px 12px;border-radius:999px;border:1px solid var(--line);background:var(--soft);cursor:pointer;margin-left:10px}
+.rel{font-style:italic;color:var(--muted);font-size:.85rem}
+.pill{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#fff;background:var(--ink);padding:3px 10px;border-radius:999px}
+.pill.grad{background:var(--grad)}
+.chip{font-size:.73rem;padding:3px 9px;border-radius:999px;background:var(--soft);color:#444}
+.chip.topic{background:#fde7f0;color:#9c1a57}
+.chip.warn{background:#fff3e0;color:#9a5300}
+.chip.ok{background:#e6f7ee;color:#17703a}
+.chip.src{background:#eef0ff;color:#3d46b8}
+.rights{font-size:.85rem;color:#555;background:var(--soft);border-radius:10px;padding:8px 10px;margin:8px 0 0}
+.graph-box{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:8px;overflow:hidden}
+svg text{font:11px -apple-system,Segoe UI,Roboto,sans-serif;fill:var(--ink);pointer-events:none}
+svg .edge{stroke:#cfcfcf;stroke-width:1.2}
+svg .edge.hi{stroke:var(--accent);stroke-width:2}
+svg .dot{cursor:pointer;stroke:#fff;stroke-width:2}
+svg .dot:hover{stroke:var(--ink)}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:.8rem;color:var(--muted);margin:8px 2px 0}
+.list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.list li a{display:block;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;text-decoration:none;color:inherit}
+.list li a:hover{border-color:var(--accent)}
+.list .t{font-weight:800;font-size:1.02rem}
+.list .m{color:var(--muted);font-size:.84rem}
+.list .s{font-size:.9rem;margin-top:4px}
+.hint{color:var(--muted);font-size:.84rem;margin:18px 0 0;max-width:76ch}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Module 1 wiki</p>
+  <h1>Art as social change</h1>
+  <p class="intro">Explore the notes by topic, lens, medium or type. Open a note to see what it links to and what links back to it. The graph shows the same notes; click a dot to open it.</p>
+
+  <div class="layout">
+    <aside aria-label="Filters">
+      <h2>Topic</h2>
+      <div id="f-topic"></div>
+      <h2>Lens</h2>
+      <div id="f-lens"></div>
+      <h2>Medium</h2>
+      <div id="f-medium"></div>
+      <h2>Note type</h2>
+      <div id="f-type"></div>
+      <button class="clear" id="clear" type="button">Clear all filters</button>
+    </aside>
+
+    <main>
+      <div class="tabs" role="group" aria-label="View">
+        <button class="tab" id="v-list" type="button" aria-pressed="true">List</button>
+        <button class="tab" id="v-graph" type="button" aria-pressed="false">Graph</button>
+        <input class="search" id="search" type="search" placeholder="Search notes" aria-label="Search notes">
+      </div>
+      <p class="count" id="count"></p>
+
+      <section id="note" hidden></section>
+
+      <ul class="list" id="list"></ul>
+      <div class="graph-box" id="graph-box" hidden>
+        <svg id="graph" viewBox="0 0 900 560" role="img" aria-label="Graph of linked notes"></svg>
+        <div class="legend" id="legend"></div>
+      </div>
+
+      <p class="hint">Videos and PDFs are on Canvas. Canvas page links are placeholders until they are pasted into the CANVAS object at the top of this page's script. Entries marked Draft still need sources before they are taught. Dates are approximate where a movement has no agreed start or end.</p>
+    </main>
+  </div>
+</div>
+
+<script>
+/* Paste the real Canvas page URLs here (for example "https://.../pages/1-dot-1-..."). */
+const CANVAS = { p11: "", p12: "", p13: "", p14: "" };
+const CANVAS_LABEL = { p11: "Module 1, page 1.1", p12: "Module 1, page 1.2", p13: "Module 1, page 1.3", p14: "Module 1, page 1.4" };
+
+const TOPICS = { social: "Social change", media: "Media and technology", global: "Global context", culture: "Cultural influences" };
+const LENSES = ["historical", "social", "artist", "medium"];
+const MEDIUMS = ["visual art", "photography", "film", "painting", "print", "sculpture", "architecture", "design", "manifesto", "writing"];
+const TYPES = { hub: "Hub", theory: "Theory", artist: "Artist", artwork: "Artwork", movement: "Movement", text: "Text", source: "Source" };
+const TYPE_COLOUR = { hub: "#262626", theory: "#4f5bd5", artist: "#4f5bd5", artwork: "#d62976", movement: "#fa7e1e", text: "#962fbf", source: "#737373" };
+const ALL = ["social", "media", "global", "culture"];
+
+/* Link relationships follow the project vocabulary in vault/conventions/lenses-and-template.md. */
+const NODES = [
+{ id:"hub", title:"Art as social change", type:"hub", dates:"Module 1, topics 1.1 to 1.4", topics:ALL, lens:["social"], medium:[], status:"draft", sens:[],
+  body:"Module 1 asks how art and design respond to social change, and how media, technology and global exchange change what art can do. Each note is tagged with one of the four topic headings and the lens that does most of its work. Three questions run through every note: who does the work speak for, which media make it visible, and what happens to it when it travels.",
+  rights:"", sources:[{t:"Module 1 Canvas pages 1.1 to 1.4", canvas:"p11"}],
+  links:[{to:"periods",rel:"mentions",text:"The theoretical periods frame the whole timeline."},{to:"ai-weiwei",rel:"mentions",text:"Starting case for social change: citizen investigation after an earthquake."},{to:"richard-mosse",rel:"mentions",text:"Starting case for technology: thermal imaging of migration."},{to:"banksy",rel:"mentions",text:"Starting case for global context: street art in a conflict zone."},{to:"immersive-art",rel:"mentions",text:"Starting case for technology and audiences."},{to:"hokusai",rel:"mentions",text:"Starting case for cultural exchange."}] },
+
+{ id:"periods", title:"Modernism, Postmodernism, Metamodernism", type:"theory", dates:"Modernism c. 1860 to c. 1970; Postmodernism c. 1970 to c. 2005; Metamodernism c. 2005 onwards", topics:ALL, lens:["historical"], medium:[], status:"checked", sens:["dated-language"],
+  body:"A framing for discussion, not settled dates. Vermeulen and van den Akker’s 2010 essay ‘Notes on Metamodernism’ describes a structure of feeling that swings between modern commitment and postmodern detachment. The term is recent and contested, so present it as one argument among several.",
+  rights:"", sources:[{t:"Timothy Vermeulen and Robin van den Akker, ‘Notes on Metamodernism’, Journal of Aesthetics & Culture (2010)", check:true}],
+  links:[{to:"pop-art",rel:"mentions",text:"Pop Art is often placed on the Modernism and Postmodernism boundary."},{to:"deconstructivism",rel:"mentions",text:"Architecture of the 1980s tested the same boundary."},{to:"digital-art",rel:"mentions",text:"Digital art is usually read as a late-period form."}] },
+
+{ id:"ai-weiwei", title:"Ai Weiwei", type:"artist", dates:"Active 2008 onwards", topics:["social"], lens:["social","artist"], medium:["visual art"], status:"checked", sens:["disputed-attribution"],
+  body:"After the 2008 Sichuan earthquake, many school buildings collapsed. Ai Weiwei backed a citizen investigation to record the names of the children who died, and published the list online until the authorities closed the blog. Later he had the names read aloud in public. Sources give different totals, so cite a specific source for any figure.",
+  rights:"", sources:[{t:"NPR, ‘According To What?’ Ai Weiwei Makes Mourning Subversive (2013)", check:true},{t:"China Heritage, on the Citizens’ Investigation (names and context)", check:true}],
+  links:[{to:"banksy",rel:"contrasted with",text:"Ai names the dead openly and in his own name. Banksy stays anonymous. Compare what each does with public visibility."},{to:"ai-weiwei-video",rel:"mentions",text:"Video introduction to his practice (rights not yet checked)."}] },
+
+{ id:"feminist-art", title:"Feminist art", type:"movement", dates:"From the early 1970s", topics:["social"], lens:["social","historical"], medium:["visual art"], status:"checked", sens:[],
+  body:"Tate defines feminist art as art made consciously in light of feminist theory from the early 1970s. Early work explored women’s experience and used materials such as embroidery that had been treated as women’s work. From the 1980s, groups such as the Guerrilla Girls turned to challenging male-dominated assumptions in the art world.",
+  rights:"", sources:[{t:"Tate, ‘Feminist art’ (art term)", check:true}],
+  links:[{to:"judy-chicago",rel:"mentions",text:"The Dinner Party is a landmark of first wave feminist art."}] },
+
+{ id:"judy-chicago", title:"Judy Chicago: The Dinner Party", type:"artwork", dates:"1974 to 1979", topics:["social","culture"], lens:["social","artist","medium"], medium:["visual art"], status:"checked", sens:[],
+  body:"A triangular banquet table with 39 place settings for women from myth and history, made with hundreds of collaborators. It was first exhibited in 1979. It is now in the Brooklyn Museum, which received it as a gift in 2002.",
+  rights:"", sources:[{t:"Brooklyn Museum, The Dinner Party (object record)", check:true}],
+  links:[{to:"feminist-art",rel:"mentions",text:"Central example of first wave feminist art."}] },
+
+{ id:"bauhaus", title:"Bauhaus", type:"movement", dates:"1919 to 1933", topics:["social","culture","media"], lens:["historical","medium"], medium:["design","architecture"], status:"checked", sens:[],
+  body:"Walter Gropius founded the Bauhaus in Weimar in 1919, merging an art academy with a craft school. The school moved to Dessau and was closed by the Nazi government in 1933. Its shift to ‘Art into Industry’ linked craft with mass production, which connects it directly to the Module 1 theme of industrial change.",
+  rights:"", sources:[{t:"Metropolitan Museum of Art, Heilbrunn Timeline: The Bauhaus, 1919 to 1933", check:true}],
+  links:[{to:"futurism",rel:"contrasted with",text:"Futurism celebrated speed and the machine as a break from tradition. The Bauhaus tried to organise design around craft and industry."},{to:"minimalism",rel:"mentions",text:"Later reduction of form and material is often traced back to Bauhaus ideas (check before teaching)."}] },
+
+{ id:"futurism", title:"Futurism", type:"movement", dates:"1909 to c. 1916", topics:["social","media"], lens:["historical"], medium:["manifesto"], status:"draft", sens:[],
+  body:"An Italian movement that celebrated speed, machines and the modern city. Marinetti’s manifesto of 1909 is the starting point. It shows early modernists welcoming the machine that other artists would later question. Needs the manifesto text and a museum source.",
+  rights:"", sources:[{t:"Module 1 Canvas page 1.1 (technology and urban change)", canvas:"p11"}],
+  links:[{to:"bauhaus",rel:"contrasted with",text:"Compare the two attitudes to the machine."}] },
+
+{ id:"pop-art", title:"Pop Art", type:"movement", dates:"c. 1955 to c. 1970", topics:["social","media"], lens:["social","historical"], medium:["visual art"], status:"draft", sens:[],
+  body:"Drew on advertising, comics and mass-produced imagery, and questioned the line between fine art and consumer culture. Module 1 frames it as a response to consumer culture and mass media. Needs a museum source for dates and key artists.",
+  rights:"", sources:[{t:"Module 1 Canvas page 1.1 (consumer culture and mass media)", canvas:"p11"}],
+  links:[{to:"howard-arkley",rel:"mentions",text:"Compare his suburban imagery with Pop Art. Test whether the link holds before using it."}] },
+
+{ id:"conceptualism", title:"Conceptualism", type:"movement", dates:"c. 1965 to c. 1975", topics:["social"], lens:["historical","medium"], medium:["visual art"], status:"draft", sens:[],
+  body:"The idea behind a work came to matter more than its physical form. Sol LeWitt’s 1967 essay on conceptual art is a common reference point. Needs the essay itself and a museum source.",
+  rights:"", sources:[],
+  links:[{to:"minimalism",rel:"mentions",text:"Often discussed alongside Minimalism, which shares the focus on structure."}] },
+
+{ id:"minimalism", title:"Minimalism", type:"movement", dates:"c. 1960 to c. 1975", topics:["culture"], lens:["historical","medium"], medium:["sculpture"], status:"draft", sens:[],
+  body:"Reduced form, repeated units and industrial materials, with the viewer’s experience of the object at the centre. Donald Judd and Carl Andre are key figures. Needs a museum source for dates and attributions.",
+  rights:"", sources:[],
+  links:[{to:"abstraction",rel:"mentions",text:"Minimalism reduced the painterly abstraction that came before it."}] },
+
+{ id:"abstraction", title:"Abstraction", type:"movement", dates:"c. 1910 onwards", topics:["culture"], lens:["historical","medium"], medium:["painting"], status:"draft", sens:[],
+  body:"Art that drops recognisable subjects in favour of colour, line and form. Kandinsky is usually credited with the first purely abstract works around 1910. Needs a museum source for the attribution and dates.",
+  rights:"", sources:[] },
+
+{ id:"street-art", title:"Street art", type:"movement", dates:"From the 1970s onwards", topics:["social","global"], lens:["social","historical"], medium:["visual art"], status:"draft", sens:[],
+  body:"From graffiti to the stencils and murals of Banksy and others. It moves art into public space and raises questions about who owns the city. Module 1 places it under activist art. Needs a museum or scholarly source for the origins.",
+  rights:"", sources:[{t:"Module 1 Canvas page 1.1 (activist art)", canvas:"p11"}],
+  links:[{to:"banksy",rel:"mentions",text:"Banksy is the best-known example in this module."}] },
+
+{ id:"banksy", title:"Banksy", type:"artist", dates:"Active from the late 1990s", topics:["global","social"], lens:["artist","social","historical"], medium:["visual art"], status:"checked", sens:["disputed-attribution"],
+  body:"An anonymous British street artist. In December 2007, Banksy’s works in Bethlehem included a dove wearing a flak jacket with a target on its chest. The image sits near the West Bank barrier, so its meaning is political. Authorship is debated because the piece is not on Banksy’s official website, and its title varies between sources.",
+  rights:"", sources:[{t:"The National, on the Bethlehem dove and its provenance (2022)", check:true},{t:"Reuters, Bethlehem works (3 December 2007)", check:true}],
+  links:[{to:"ai-weiwei",rel:"contrasted with",text:"Anonymity against open naming. Use both to ask what visibility does for protest art."},{to:"street-art",rel:"mentions",text:"Part of the street art tradition."},{to:"banksy-video",rel:"mentions",text:"Video on Banksy (rights not yet checked)."}] },
+
+{ id:"richard-mosse", title:"Richard Mosse: Incoming", type:"artwork", dates:"2014 to 2017", topics:["media","social"], lens:["artist","medium","social"], medium:["film","photography"], status:"checked", sens:[],
+  body:"Irish artist Richard Mosse made Incoming, a three-channel video shot along routes into Europe with a military-grade thermal camera. The camera registers heat rather than light, so people appear as ghostly monochrome figures. Critics disagree on whether the device dehumanises its subjects or exposes how borders see people. Present both readings.",
+  rights:"", sources:[{t:"National Gallery of Art, Washington, on Incoming", check:true},{t:"Irish Arts Review, review of the Incoming book", check:true}],
+  links:[{to:"light-echoes",rel:"contrasted with",text:"Both are media artworks, but Mosse’s camera sees heat and Light Echoes records a laser trace."},{to:"richard-mosse-video",rel:"mentions",text:"Video on Mosse’s thermal imaging (rights not yet checked)."},{to:"digital-art",rel:"mentions",text:"A key example of technology in the image."}] },
+
+{ id:"light-echoes", title:"Light Echoes", type:"artwork", dates:"2013", topics:["media"], lens:["medium","artist"], medium:["photography","film"], status:"checked", sens:[],
+  body:"Made for Doug Aitken’s Station to Station train project. A laser on a boom mounted to a moving train projected images onto the landscape one pixel at a time, and a long-exposure camera recorded the traces. Earlier notes listed 2010. Check the date against the project’s own record before teaching.",
+  rights:"", sources:[{t:"Gizmodo Australia, on Light Echoes and Station to Station", check:true}],
+  links:[{to:"koblin-tricklebank",rel:"developed",text:"Made by Koblin and Tricklebank."}] },
+
+{ id:"koblin-tricklebank", title:"Aaron Koblin and Ben Tricklebank", type:"artist", dates:"Active 2010s", topics:["media"], lens:["artist","medium"], medium:["photography","film"], status:"draft", sens:[],
+  body:"Koblin, a data visualisation artist, and Tricklebank, a filmmaker, collaborated on Light Echoes. Their work joins data-driven visualisation with film and long-exposure photography, which is useful for asking how technology shapes what art looks like. Their roles and company names need checking before use.",
+  rights:"", sources:[{t:"Gizmodo Australia, on Koblin and Tricklebank", check:true}] },
+
+{ id:"digital-art", title:"Digital art", type:"movement", dates:"Early computer art from the 1960s; mainstream from c. 2010", topics:["media"], lens:["medium","historical"], medium:["visual art","film"], status:"draft", sens:[],
+  body:"Art made with computers, networks and code. Module 1 links the 2010s work to Light Echoes, Mosse’s thermal imaging and generative image tools. The 1960s origins need a museum source.",
+  rights:"", sources:[{t:"Module 1 Canvas page 1.2 (media and technology)", canvas:"p12"}],
+  links:[{to:"richard-mosse",rel:"mentions",text:"Thermal imaging as a digital tool."},{to:"light-echoes",rel:"mentions",text:"Data and long-exposure photography."}] },
+
+{ id:"immersive-art", title:"Immersive art", type:"movement", dates:"Recent decade (check the first dates)", topics:["media","global"], lens:["medium","social","historical"], medium:["visual art","film"], status:"checked", sens:[],
+  body:"Projection-based, technology-led exhibitions that have spread through museums and commercial venues. Anna Wiener’s 2022 article follows this shift and asks what it does to the way audiences look at art. Critics ask whether these shows educate or simply entertain.",
+  rights:"", sources:[{t:"Anna Wiener, ‘The Rise of “Immersive” Art’ (February 2022), Module 1 Canvas page 1.3", canvas:"p13"}],
+  links:[{to:"wiener-article",rel:"mentions",text:"Read the article for the full argument. Paraphrase only."}] },
+
+{ id:"wiener-article", title:"Anna Wiener, ‘The Rise of “Immersive” Art’", type:"text", dates:"February 2022", topics:["media","global"], lens:["social","medium"], medium:["writing"], status:"source", sens:[],
+  body:"A magazine article on tech-driven immersive exhibitions, from teamLab to the Van Gogh shows. It records how curators, critics and visitors respond to these works. Use the summary here to find the argument, then send students to the article.",
+  rights:"Copyrighted magazine article, hosted on Canvas for enrolled students. Summaries are paraphrased, not reproduced.", sources:[{t:"Canvas: Module 1, page 1.3 (PDF)", canvas:"p13"}],
+  links:[{to:"immersive-art",rel:"mentions",text:"The article’s subject."}] },
+
+{ id:"ukiyo-e", title:"Ukiyo-e", type:"movement", dates:"Edo period, 1603 to 1867", topics:["culture"], lens:["historical","medium"], medium:["print","painting"], status:"draft", sens:[],
+  body:"Japanese woodblock printing and painting of the Edo period. It showed urban life, actors, courtesans and landscapes. The Module 1 article traces its reach to Western artists, which is the starting point for Japonisme (not taught as its own note). The article’s claim about Nara-period origins needs a museum source before use.",
+  rights:"", sources:[{t:"Hailey Spinks, Ukiyo-e article (Canvas page 1.4)", canvas:"p14"}],
+  links:[{to:"hokusai",rel:"mentions",text:"A leading print designer of the form."},{to:"hiroshige",rel:"mentions",text:"Landscape printmaker in the same tradition."},{to:"spinks-reading",rel:"mentions",text:"The Module 1 reading on this topic."}] },
+
+{ id:"hokusai", title:"Hokusai: Under the Wave off Kanagawa", type:"artwork", dates:"c. 1830 to 1832", topics:["culture"], lens:["artist","historical"], medium:["print"], status:"checked", sens:[],
+  body:"The best-known print from Thirty-six Views of Mount Fuji. Mount Fuji sits small in the distance beneath a cresting wave above fishing boats. Check any claims about the pigments or printing methods against the Met before using them.",
+  rights:"", sources:[{t:"Metropolitan Museum of Art, The Great Wave: Anatomy of an Icon", check:true}],
+  links:[{to:"ukiyo-e",rel:"mentions",text:"Part of the ukiyo-e tradition."}] },
+
+{ id:"hiroshige", title:"Utagawa Hiroshige", type:"artist", dates:"1797 to 1858", topics:["culture"], lens:["artist"], medium:["print"], status:"draft", sens:[],
+  body:"Landscape printmaker whose series include The Fifty-three Stations of the Tōkaidō and One Hundred Famous Views of Edo. The Module 1 article calls him the last great artist of the traditional approach, which is the article’s judgement rather than settled fact.",
+  rights:"", sources:[{t:"Hailey Spinks, Ukiyo-e article (Canvas page 1.4)", canvas:"p14"}],
+  links:[{to:"ukiyo-e",rel:"mentions",text:"Works in this tradition."}] },
+
+{ id:"spinks-reading", title:"Hailey Spinks, ‘Ukiyo-e: its artwork and influence on contemporary design’", type:"source", dates:"Commercial design blog", topics:["culture"], lens:["historical","medium"], medium:["writing"], status:"source", sens:["second-hand"],
+  body:"A design blog on ukiyo-e and its influence on Western artists and contemporary graphic design. Use it with a museum timeline to check its claims. Two claims need checking: the Nara-period origins and a description of Hokusai as an expert on Chinese painting.",
+  rights:"Commercial blog, hosted on Canvas. Paraphrase only and check reuse before copying.", sources:[{t:"Canvas: Module 1, page 1.4 (PDF)", canvas:"p14"}],
+  links:[{to:"ukiyo-e",rel:"mentions",text:"Topic of the reading."}] },
+
+{ id:"howard-arkley", title:"Howard Arkley", type:"artist", dates:"1951 to 1999", topics:["culture"], lens:["artist","social"], medium:["painting"], status:"checked", sens:[],
+  body:"Melbourne painter known for airbrushed suburban houses in bold colour. He represented Australia at the 48th Venice Biennale in 1999 with The Home Show, which ran from June to November that year. He died in July 1999. Use his suburban work to test whether art can record everyday social life.",
+  rights:"", sources:[{t:"GAP, The Home Show, 48th Venice Biennale (1999)", check:true}],
+  links:[{to:"pop-art",rel:"mentions",text:"Compare with Pop Art. Test the link before using it."},{to:"arkley-video",rel:"mentions",text:"Video on suburban imagery (uploader not confirmed)."}] },
+
+{ id:"destino", title:"Destino (Disney and Dalí)", type:"artwork", dates:"Begun 1945 or 1946; released 2003", topics:["culture"], lens:["historical","artist","medium"], medium:["film"], status:"checked", sens:[],
+  body:"An animated short begun by Walt Disney’s studio and Salvador Dalí in the mid-1940s and set aside when the studio’s finances faltered. It was completed much later and premiered at the Annecy festival in 2003. Sources give 1945 or 1946 as the start date, so say which you cite.",
+  rights:"Hosted on Canvas for Module 1. No public link checked.", sources:[{t:"Dazed, on the secret history of Salvador Dalí’s Disney film (2016)", check:true}],
+  links:[{to:"destino-video",rel:"mentions",text:"Canvas video of the film."}] },
+
+{ id:"deconstructivism", title:"Deconstructivism (architecture)", type:"movement", dates:"1988 MoMA exhibition", topics:["culture"], lens:["historical","medium"], medium:["architecture"], status:"checked", sens:[],
+  body:"MoMA’s Deconstructivist Architecture ran from June to August 1988 and was curated by Philip Johnson and Mark Wigley. It helped define a style of fragmented, tilted buildings. Use it to test how museums name and create movements.",
+  rights:"", sources:[{t:"MoMA, Deconstructivist Architecture (1988 catalogue)", check:true}] },
+
+{ id:"what-is-art-for", title:"What is Art For? (The School of Life)", type:"source", dates:"Uploaded 2014", topics:["social"], lens:["social"], medium:["film"], status:"source", sens:[],
+  body:"A short video on what art is for. Use it to open the social change discussion and test the idea of art’s purpose.",
+  rights:"YouTube. No licence shown and no rights statement, so link only. Embedding is not cleared.", sources:[{t:"Canvas: Module 1, page 1.1 (host)", canvas:"p11"},{t:"YouTube link from your Module 1 list (checked)", url:"https://www.youtube.com/watch?v=sn0bDD4gXrE"}],
+  links:[{to:"hub",rel:"mentions",text:"Opens the social change theme."}] },
+
+{ id:"ai-weiwei-video", title:"The Case for Ai Weiwei (video)", type:"source", dates:"Not checked", topics:["social"], lens:["artist","social"], medium:["film"], status:"source", sens:[],
+  body:"A video introduction to Ai Weiwei’s practice and political context. Link only until rights are checked.",
+  rights:"YouTube. Rights not checked.", sources:[{t:"Canvas: Module 1, page 1.1 (host)", canvas:"p11"},{t:"YouTube link from your Module 1 list (not yet checked)", url:"https://www.youtube.com/watch?v=YMtsodcAsVU"}],
+  links:[{to:"ai-weiwei",rel:"mentions",text:"Video on this artist."}] },
+
+{ id:"richard-mosse-video", title:"Richard Mosse (video)", type:"source", dates:"Not checked", topics:["media"], lens:["artist","medium"], medium:["film"], status:"source", sens:[],
+  body:"A video on Mosse’s thermal imaging work, used with Incoming for the media and technology topic.",
+  rights:"YouTube. Rights not checked. Link only until checked.", sources:[{t:"Canvas: Module 1, page 1.2 (host)", canvas:"p12"},{t:"YouTube link from your Module 1 list (not yet checked)", url:"https://www.youtube.com/watch?v=p0IUuYjdrOU"}],
+  links:[{to:"richard-mosse",rel:"mentions",text:"Video on this work."}] },
+
+{ id:"light-echoes-video", title:"Koblin and Tricklebank (video)", type:"source", dates:"Not checked", topics:["media"], lens:["artist","medium"], medium:["film"], status:"source", sens:[],
+  body:"A video on Light Echoes and its making. Use alongside the Light Echoes note.",
+  rights:"YouTube. Rights not checked. Link only until checked.", sources:[{t:"Canvas: Module 1, page 1.2 (host)", canvas:"p12"},{t:"YouTube link from your Module 1 list (not yet checked)", url:"https://www.youtube.com/watch?v=FpjwrZLqAP8"}],
+  links:[{to:"light-echoes",rel:"mentions",text:"Video on this work."}] },
+
+{ id:"arkley-video", title:"Howard Arkley’s suburban life (video)", type:"source", dates:"Not checked", topics:["culture","global"], lens:["artist","social"], medium:["film"], status:"source", sens:[],
+  body:"A video on Arkley’s suburban imagery. The uploader has not been confirmed.",
+  rights:"Vimeo. Uploader and licence not confirmed. Link only until checked.", sources:[{t:"Canvas: Module 1, page 1.3 (host)", canvas:"p13"},{t:"Vimeo link from your Module 1 list (not confirmed)", url:"https://vimeo.com/214658559"}],
+  links:[{to:"howard-arkley",rel:"mentions",text:"Video on this artist."}] },
+
+{ id:"banksy-video", title:"Banksy (video)", type:"source", dates:"Not checked", topics:["global","social"], lens:["artist","social"], medium:["film"], status:"source", sens:[],
+  body:"A video on Banksy’s anonymity and social commentary. Used for the image analysis in the live class.",
+  rights:"YouTube. Rights not checked. Link only until checked.", sources:[{t:"Canvas: Module 1, page 1.3 (host)", canvas:"p13"},{t:"YouTube link from your Module 1 list (not yet checked)", url:"https://www.youtube.com/watch?v=Az9ttLyQe9E"}],
+  links:[{to:"banksy",rel:"mentions",text:"Video on this artist."}] },
+
+{ id:"destino-video", title:"Destino (film)", type:"source", dates:"2003", topics:["culture"], lens:["artist","medium"], medium:["film"], status:"source", sens:[],
+  body:"The short film from the Disney and Dalí collaboration. Module 1 prompts ask students to consider what animation and Surrealism each bring to the work.",
+  rights:"Hosted on Canvas. Access through Canvas only.", sources:[{t:"Canvas: Module 1, page 1.4 (host)", canvas:"p14"}],
+  links:[{to:"destino",rel:"mentions",text:"The film in this wiki."}] }
+];
+
+const byId = Object.fromEntries(NODES.map(n => [n.id, n]));
+const state = { topic:new Set(), lens:new Set(), medium:new Set(), type:new Set(), q:"", view:"list" };
+const pos = {};
+
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function el(id){ return document.getElementById(id); }
+
+function buildFilters(){
+  const mk = (box, items, group) => {
+    box.innerHTML = items.map(([v, l, colour]) =>
+      `<label class="opt"><input type="checkbox" data-g="${group}" value="${esc(v)}"> ${colour ? `<span class="swatch" style="background:${colour}"></span>` : ""}${esc(l)}</label>`
+    ).join("");
+  };
+  mk(el("f-topic"), Object.entries(TOPICS), "topic");
+  mk(el("f-lens"), LENSES.map(l => [l, l[0].toUpperCase()+l.slice(1)]), "lens");
+  mk(el("f-medium"), MEDIUMS.map(m => [m, m]), "medium");
+  mk(el("f-type"), Object.entries(TYPES).map(([k,v]) => [k, v, TYPE_COLOUR[k]]), "type");
+  document.querySelectorAll("input[data-g]").forEach(cb => cb.addEventListener("change", () => {
+    const set = state[cb.dataset.g];
+    cb.checked ? set.add(cb.value) : set.delete(cb.value);
+    refresh();
+  }));
+  el("legend").innerHTML = Object.entries(TYPES).map(([k,v]) =>
+    `<span><span class="swatch" style="background:${TYPE_COLOUR[k]}"></span> ${esc(v)}</span>`).join("");
+}
+
+/* Groups combine as AND; ticks within a group combine as OR. */
+function visible(n){
+  const grp = (set, vals) => set.size === 0 || vals.some(v => set.has(v));
+  if (!grp(state.topic, n.topics)) return false;
+  if (!grp(state.lens, n.lens)) return false;
+  if (!grp(state.medium, n.medium)) return false;
+  if (!grp(state.type, [n.type])) return false;
+  if (state.q) {
+    const hay = (n.title + " " + n.body + " " + (n.dates||"")).toLowerCase();
+    if (!hay.includes(state.q)) return false;
+  }
+  return true;
+}
+
+function linkedFrom(id){
+  return NODES.filter(m => m.links.some(l => l.to === id)).map(m => {
+    const l = m.links.find(x => x.to === id);
+    return { from:m, rel:l.rel, text:l.text };
+  });
+}
+
+function sourceHTML(s){
+  if (s.canvas) {
+    const url = CANVAS[s.canvas];
+    return url ? `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(s.t)}</a> <span class="chip src">Canvas</span>`
+               : `${esc(s.t)} <span class="chip src">Canvas: ${esc(CANVAS_LABEL[s.canvas])} (add link)</span>`;
+  }
+  if (s.url) return `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.t)}</a>`;
+  return `${esc(s.t)} ${s.check ? '<span class="chip warn">check before use</span>' : ""}`;
+}
+
+function renderNote(n){
+  const back = linkedFrom(n.id);
+  const sens = n.sens.map(s => `<span class="chip warn">${esc(s)}</span>`).join("");
+  const topics = n.topics.length === 4 ? `<span class="chip topic">All topics</span>` : n.topics.map(t => `<span class="chip topic">${esc(TOPICS[t])}</span>`).join("");
+  const statusMap = { checked:"Checked", draft:"Draft: sources to add", source:"Source note" };
+  const statusClass = { checked:"ok", draft:"warn", source:"src" };
+  el("note").innerHTML = `
+    <article class="note ${n.type === "hub" ? "hub" : ""}">
+      <button class="close" type="button" id="close-note">Close</button>
+      <div class="top"><span class="pill ${n.type === "hub" ? "grad" : ""}">${esc(TYPES[n.type])}</span>${topics}</div>
+      <h2>${esc(n.title)}</h2>
+      <p class="dates">${esc(n.dates || "")}</p>
+      <p class="body">${esc(n.body)}</p>
+      ${n.rights ? `<p class="rights"><strong>Rights.</strong> ${esc(n.rights)}</p>` : ""}
+      <div class="top" style="margin-top:8px">${n.lens.map(l => `<span class="chip">${esc(l)}</span>`).join("")}${n.medium.map(m => `<span class="chip">${esc(m)}</span>`).join("")}${sens}<span class="chip ${statusClass[n.status]}">${statusMap[n.status]}</span></div>
+      <h3>Links out</h3>
+      ${n.links.length ? `<ul>${n.links.map(l => `<li><a href="#${esc(l.to)}">${esc(byId[l.to] ? byId[l.to].title : l.to)}</a> <span class="rel">${esc(l.rel)}</span>. ${esc(l.text)}</li>`).join("")}</ul>` : "<p class='rights'>No links yet.</p>"}
+      <h3>Linked from</h3>
+      ${back.length ? `<ul>${back.map(b => `<li><a href="#${esc(b.from.id)}">${esc(b.from.title)}</a> <span class="rel">${esc(b.rel)}</span>. ${esc(b.text)}</li>`).join("")}</ul>` : "<p class='rights'>Nothing links here yet.</p>"}
+      <h3>Sources</h3>
+      ${n.sources.length ? `<ul>${n.sources.map(s => `<li>${sourceHTML(s)}</li>`).join("")}</ul>` : "<p class='rights'>No sources yet. Add before teaching.</p>"}
+    </article>`;
+  el("note").hidden = false;
+  el("close-note").addEventListener("click", () => { location.hash = ""; });
+}
+
+function renderList(shown){
+  el("list").innerHTML = shown.map(n => `
+    <li><a href="#${esc(n.id)}">
+      <div class="t">${esc(n.title)}</div>
+      <div class="m">${esc(TYPES[n.type])}${n.dates ? " · " + esc(n.dates) : ""}</div>
+      <div class="s">${esc(n.body.slice(0, 150))}${n.body.length > 150 ? "…" : ""}</div>
+    </a></li>`).join("");
+}
+
+/* Simple force layout, kept between renders so the graph does not jump. */
+function layout(nodes, edges){
+  const W = 900, H = 560;
+  nodes.forEach((n, i) => {
+    if (!pos[n.id]) { const a = 2*Math.PI*i/nodes.length; pos[n.id] = { x:W/2 + Math.cos(a)*250, y:H/2 + Math.sin(a)*210 }; }
+  });
+  const P = nodes.map(n => ({ id:n.id, x:pos[n.id].x, y:pos[n.id].y }));
+  const idx = Object.fromEntries(P.map((p, i) => [p.id, i]));
+  for (let it = 0; it < 260; it++) {
+    const fx = P.map(() => 0), fy = P.map(() => 0);
+    for (let i = 0; i < P.length; i++) for (let j = i+1; j < P.length; j++) {
+      const dx = P[i].x - P[j].x, dy = P[i].y - P[j].y;
+      const d2 = Math.max(dx*dx + dy*dy, 80), d = Math.sqrt(d2), f = 3600 / d2;
+      fx[i] += dx/d*f; fy[i] += dy/d*f; fx[j] -= dx/d*f; fy[j] -= dy/d*f;
+    }
+    edges.forEach(([a, b]) => {
+      const i = idx[a], j = idx[b]; if (i === undefined || j === undefined) return;
+      const dx = P[j].x - P[i].x, dy = P[j].y - P[i].y, d = Math.max(Math.sqrt(dx*dx + dy*dy), 1);
+      const f = (d - 120) * 0.03;
+      fx[i] += dx/d*f; fy[i] += dy/d*f; fx[j] -= dx/d*f; fy[j] -= dy/d*f;
+    });
+    P.forEach((p, i) => {
+      p.x += Math.max(-8, Math.min(8, fx[i] + (W/2 - p.x) * 0.012));
+      p.y += Math.max(-8, Math.min(8, fy[i] + (H/2 - p.y) * 0.012));
+      p.x = Math.max(40, Math.min(W-40, p.x)); p.y = Math.max(30, Math.min(H-30, p.y));
+    });
+  }
+  P.forEach(p => { pos[p.id] = { x:p.x, y:p.y }; });
+  return pos;
+}
+
+function renderGraph(shown){
+  const ids = new Set(shown.map(n => n.id));
+  const edges = [];
+  shown.forEach(n => n.links.forEach(l => { if (ids.has(l.to)) edges.push([n.id, l.to, l.rel]); }));
+  const p = layout(shown, edges.map(([a,b]) => [a,b]));
+  const active = location.hash.slice(1);
+  let out = "";
+  edges.forEach(([a, b, rel]) => {
+    const hi = active === a || active === b;
+    out += `<line class="edge ${hi ? "hi" : ""}" x1="${p[a].x}" y1="${p[a].y}" x2="${p[b].x}" y2="${p[b].y}"><title>${esc(byId[a].title)} ${esc(rel)} ${esc(byId[b].title)}</title></line>`;
+  });
+  shown.forEach(n => {
+    const q = p[n.id];
+    const r = n.type === "hub" ? 12 : 9;
+    out += `<a href="#${esc(n.id)}"><circle class="dot" cx="${q.x}" cy="${q.y}" r="${r}" fill="${TYPE_COLOUR[n.type]}"><title>${esc(n.title)}</title></circle></a>`;
+    out += `<text x="${q.x + 13}" y="${q.y + 4}">${esc(n.title.length > 30 ? n.title.slice(0, 28) + "…" : n.title)}</text>`;
+  });
+  el("graph").innerHTML = out;
+}
+
+function refresh(){
+  const shown = NODES.filter(visible);
+  const notes = shown.filter(n => n.type !== "hub").length;
+  el("count").textContent = `${notes} of ${NODES.length - 1} notes shown`;
+  if (state.view === "list") renderList(shown); else renderGraph(shown);
+}
+
+function route(){
+  const id = location.hash.slice(1);
+  if (id && byId[id]) renderNote(byId[id]); else { el("note").hidden = true; el("note").innerHTML = ""; }
+  refresh();
+}
+
+function setView(v){
+  state.view = v;
+  el("v-list").setAttribute("aria-pressed", v === "list");
+  el("v-graph").setAttribute("aria-pressed", v === "graph");
+  el("list").hidden = v !== "list";
+  el("graph-box").hidden = v !== "graph";
+  refresh();
+}
+
+el("v-list").addEventListener("click", () => setView("list"));
+el("v-graph").addEventListener("click", () => setView("graph"));
+el("search").addEventListener("input", e => { state.q = e.target.value.trim().toLowerCase(); refresh(); });
+el("clear").addEventListener("click", () => {
+  ["topic","lens","medium","type"].forEach(g => state[g].clear());
+  state.q = ""; el("search").value = "";
+  document.querySelectorAll("input[data-g]").forEach(cb => cb.checked = false);
+  refresh();
+});
+window.addEventListener("hashchange", route);
+
+buildFilters();
+setView("list");
+route();
+</script>
+</body>
+</html>
