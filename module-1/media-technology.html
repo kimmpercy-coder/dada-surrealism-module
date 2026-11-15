@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<title>Media and technology: from the studio to the law</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root {
+  --bg: #fafafa;
+  --card: #ffffff;
+  --ink: #262626;
+  --muted: #737373;
+  --line: #dbdbdb;
+  --accent: #d62976;
+  --grad: linear-gradient(90deg, #feda75 0%, #fa7e1e 25%, #d62976 50%, #962fbf 75%, #4f5bd5 100%);
+  --r1: #4f5bd5;
+  --r2: #d62976;
+  --r3: #fa7e1e;
+  --r4: #962fbf;
+  --good: #2e7d32;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  padding: 20px 16px 28px;
+}
+.eyebrow {
+  font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--muted); margin: 0 0 4px;
+}
+h1 {
+  font-size: clamp(1.4rem, 4vw, 1.9rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin: 0 0 8px;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+}
+.intro { color: var(--muted); max-width: 62ch; margin: 0 0 16px; font-size: 0.95rem; }
+h2 {
+  font-size: 0.95rem; font-weight: 700; margin: 26px 0 8px;
+  text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted);
+}
+
+.controls { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; align-items: center; }
+.ctl-label {
+  font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--muted); margin-right: 4px;
+}
+.chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 14px; border-radius: 999px;
+  background: var(--card); border: 1px solid var(--line);
+  font-size: 0.9rem; cursor: pointer; user-select: none;
+}
+.chip input { accent-color: var(--accent); width: 16px; height: 16px; margin: 0; }
+.chip:has(input:checked) { border-color: var(--accent); }
+.swatch { display: inline-block; width: 12px; height: 12px; border-radius: 50%; }
+
+.diagram {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  padding: 10px;
+}
+.diagram svg { display: block; width: 100%; height: auto; max-width: 680px; margin: 0 auto; }
+.centre-label { font-size: 13px; font-weight: 700; fill: var(--muted); }
+.out-label { font-size: 12px; font-weight: 600; fill: var(--muted); }
+
+.dot { cursor: pointer; outline: none; }
+.dot[hidden] { display: none; }
+.dot .hit { fill: transparent; }
+.dot .mark { fill: var(--ink); stroke: #fff; stroke-width: 2; }
+.dot .name {
+  font-size: 13px; font-weight: 700; fill: var(--ink);
+  stroke: #fff; stroke-width: 4px; paint-order: stroke; stroke-linejoin: round;
+}
+.dot:hover .mark, .dot:focus-visible .mark, .dot.pinned .mark { fill: var(--accent); }
+.dot:hover .name, .dot:focus-visible .name, .dot.pinned .name { fill: var(--accent); }
+
+.tip {
+  position: fixed; z-index: 20;
+  max-width: min(300px, calc(100vw - 32px));
+  background: #fff; color: var(--ink);
+  border: 1px solid var(--line); border-radius: 14px;
+  padding: 12px 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.14);
+  pointer-events: none; opacity: 0; transition: opacity 120ms;
+}
+.tip.show { opacity: 1; }
+.t-kind { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin: 0 0 4px; }
+.t-name { font-size: 1rem; font-weight: 700; margin: 0 0 2px; }
+.t-layers { font-size: 0.82rem; color: var(--muted); margin: 0 0 6px; }
+.t-desc { font-size: 0.9rem; margin: 0; line-height: 1.45; }
+
+/* Activity */
+.activity {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 16px;
+}
+.activity p.note { color: var(--muted); font-size: 0.9rem; margin: 0 0 12px; max-width: 70ch; }
+.pool { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; min-height: 40px; }
+.factor-btn {
+  font: inherit; font-size: 0.9rem;
+  padding: 8px 12px; border-radius: 10px;
+  background: var(--bg); border: 1px solid var(--line);
+  cursor: pointer;
+}
+.factor-btn[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(214,41,118,0.2); }
+.factor-btn.placed { background: var(--card); }
+.status { font-weight: 700; color: var(--accent); margin: 0 0 12px; font-size: 0.95rem; }
+.factor-btn.match { border-color: var(--good); }
+.factor-btn.miss { border-color: var(--accent); }
+.rings { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }
+.ring-box {
+  border-radius: 12px; border: 2px solid var(--line); background: var(--bg);
+  padding: 10px; min-height: 96px; cursor: pointer; text-align: left; font: inherit;
+}
+.ring-box.ready { border-style: dashed; border-color: var(--accent); }
+.ring-box h3 { font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 6px; }
+.ring-box ul { list-style: none; margin: 0; padding: 0; font-size: 0.88rem; }
+.ring-box li { margin: 2px 0; }
+.ring-box li.good::after { content: " ✓"; color: var(--good); font-weight: 700; }
+.ring-box li.bad::after { content: " ✗"; color: var(--accent); font-weight: 700; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; align-items: center; }
+.btn {
+  font: inherit; font-size: 0.9rem; font-weight: 700;
+  padding: 9px 16px; border-radius: 999px; cursor: pointer;
+  background: var(--ink); color: #fff; border: 0;
+}
+.btn.ghost { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+.score { font-size: 0.95rem; margin-left: 4px; }
+.feedback { margin: 10px 0 0; font-size: 0.9rem; color: var(--muted); max-width: 70ch; }
+
+ol.factors { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+ol.factors li {
+  background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+  padding: 10px 14px; font-size: 0.92rem;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+ol.factors li.hl { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(214,41,118,0.15); }
+ol.factors li.off { opacity: 0.4; }
+ol.factors .f-name { font-weight: 700; margin: 0; }
+ol.factors .f-layers { font-size: 0.8rem; color: var(--muted); margin: 0; }
+ol.factors .f-text { margin: 4px 0 0; }
+
+.hint { color: var(--muted); font-size: 0.82rem; margin: 14px 0 0; max-width: 70ch; }
+@media (prefers-reduced-motion: reduce) { .tip { transition: none; } }
+</style>
+</head>
+<body>
+
+<p class="eyebrow">Interactive diagram and activity</p>
+<h1>Media and technology: from the studio to the law</h1>
+<p class="intro">The eight ways media and technology shape art and design are arranged in rings, moving outward from the artist's studio to the law. Tick a ring to show or hide it. Hover over a word, or tap it, to read more. Then try the activity below to place the factors yourself.</p>
+
+<div class="controls" role="group" aria-label="Show or hide rings">
+  <span class="ctl-label">Show</span>
+  <label class="chip"><input type="checkbox" id="ring-1" checked> <span class="swatch" style="background:var(--r1)"></span>Making</label>
+  <label class="chip"><input type="checkbox" id="ring-2" checked> <span class="swatch" style="background:var(--r2)"></span>Connecting</label>
+  <label class="chip"><input type="checkbox" id="ring-3" checked> <span class="swatch" style="background:var(--r3)"></span>Culture and society</label>
+  <label class="chip"><input type="checkbox" id="ring-4" checked> <span class="swatch" style="background:var(--r4)"></span>Rights and law</label>
+</div>
+
+<div class="diagram">
+  <svg id="rings" viewBox="0 0 680 680" role="img" aria-labelledby="rings-title rings-desc">
+    <title id="rings-title">Concentric rings of media and technology factors</title>
+    <desc id="rings-desc">Four rings around the artist's studio: making at the centre, then connecting, culture and society, and rights and law at the edge. Eight factors sit on the rings. The full list is below the diagram.</desc>
+    <circle id="rc-4" cx="340" cy="340" r="330" fill="#962fbf" fill-opacity="0.10" stroke="#962fbf" stroke-width="2"></circle>
+    <circle id="rc-3" cx="340" cy="340" r="270" fill="#fa7e1e" fill-opacity="0.12" stroke="#fa7e1e" stroke-width="2"></circle>
+    <circle id="rc-2" cx="340" cy="340" r="200" fill="#d62976" fill-opacity="0.12" stroke="#d62976" stroke-width="2"></circle>
+    <circle id="rc-1" cx="340" cy="340" r="120" fill="#4f5bd5" fill-opacity="0.14" stroke="#4f5bd5" stroke-width="2"></circle>
+    <text class="centre-label" x="340" y="336" text-anchor="middle">The artist's</text>
+    <text class="centre-label" x="340" y="352" text-anchor="middle">studio</text>
+    <g id="dots"></g>
+  </svg>
+</div>
+
+<div class="tip" id="tip" role="tooltip"></div>
+
+<h2>Try it: place the factors</h2>
+<div class="activity">
+  <p class="note"><strong>How it works:</strong> click a factor, then click the box below it that you think it belongs in. To move a factor, click it again and choose a different box. When all eight are placed, press Check my answers. Where your choice differs from the suggested box, the check shows the suggestion, so you can discuss why you placed it differently.</p>
+  <p class="status" id="status" aria-live="polite"></p>
+  <div class="pool" id="pool" aria-label="Factors to place"></div>
+  <div class="rings" id="ring-boxes"></div>
+  <div class="actions">
+    <button type="button" class="btn" id="check">Check my answers</button>
+    <button type="button" class="btn ghost" id="reset">Start again</button>
+    <span class="score" id="score" aria-live="polite"></span>
+  </div>
+  <p class="feedback" id="feedback"></p>
+</div>
+
+<h2>All eight factors</h2>
+<ol class="factors" id="factors"></ol>
+
+<p class="hint">The suggested placements are a reading for discussion, not the only defensible one.</p>
+
+<script>
+const RINGS = {
+  1: { name: "Making", color: "#4f5bd5" },
+  2: { name: "Connecting", color: "#d62976" },
+  3: { name: "Culture and society", color: "#fa7e1e" },
+  4: { name: "Rights and law", color: "#962fbf" }
+};
+
+// x, y: dot position on the diagram. lx, ly: label position. ring: suggested ring.
+const ITEMS = [
+  { n: 1, name: "Digital art and design", short: "Digital art", ring: 1, x: 287, y: 287, lx: 287, ly: 281, anchor: "middle",
+    text: "The advent of digital technology has revolutionised the creation and distribution of art and design. Digital tools, such as graphic design software and 3D modelling programs, have allowed artists and designers to explore new creative possibilities." },
+  { n: 2, name: "Accessibility and democratisation", short: "Access", ring: 1, alt: [4],
+    altNote: "Accessibility is also a legal issue, so Rights and law is a defensible choice too. Discuss which framing you find stronger.",
+    x: 393, y: 287, lx: 393, ly: 281, anchor: "middle",
+    text: "Media and technology have made it easier for aspiring artists and designers to access tools and resources, lowering barriers to entry." },
+  { n: 3, name: "Virtual and augmented reality", short: "VR and AR", ring: 1, x: 393, y: 393, lx: 393, ly: 411, anchor: "middle",
+    text: "VR and AR technologies have opened up entirely new realms of artistic expression." },
+  { n: 4, name: "New art forms", short: "New forms", ring: 1, x: 287, y: 393, lx: 287, ly: 411, anchor: "middle",
+    text: "The fusion of art and technology has given rise to new art forms, such as net art, generative art and interactive installations." },
+  { n: 5, name: "Collaboration and community building", short: "Collaboration", ring: 2, x: 340, y: 180, lx: 340, ly: 166, anchor: "middle",
+    text: "Online platforms and social media have enabled artists and designers to connect and collaborate with peers and audiences across the world." },
+  { n: 6, name: "Cultural commentary", short: "Cultural commentary", ring: 3, x: 105, y: 340, lx: 105, ly: 326, anchor: "middle",
+    text: "Artists and designers often use media and technology to comment on and critique contemporary culture. They can address issues like identity, politics and social justice through their work." },
+  { n: 7, name: "Cultural shifts", short: "Cultural shifts", ring: 3, x: 575, y: 340, lx: 575, ly: 326, anchor: "middle",
+    text: "Media and technology have influenced cultural norms and values, shaping the way people perceive art and design. For example, the digital age has brought about a greater appreciation for the intersection of art and technology." },
+  { n: 8, name: "Copyright and intellectual property", short: "Copyright", ring: 4, x: 128, y: 552, lx: 128, ly: 572, anchor: "middle",
+    text: "The digital era has raised important questions about copyright and intellectual property in the art and design world. Artists and creators must navigate issues related to digital piracy, fair use and the protection of their work in the online landscape." }
+];
+
+const SVG_NS = "http://www.w3.org/2000/svg";
+const dotsEl = document.getElementById("dots");
+const factorsEl = document.getElementById("factors");
+const tip = document.getElementById("tip");
+const pool = document.getElementById("pool");
+const ringBoxes = document.getElementById("ring-boxes");
+const feedback = document.getElementById("feedback");
+const scoreEl = document.getElementById("score");
+let pinned = null;
+let chosen = null;
+const placed = {}; // n -> ring
+
+function ringOn(r) {
+  return document.getElementById("ring-" + r).checked;
+}
+
+function showTip(g, it) {
+  tip.replaceChildren();
+  const kind = document.createElement("p");
+  kind.className = "t-kind";
+  kind.textContent = "Factor " + it.n + " of " + ITEMS.length;
+  const name = document.createElement("p");
+  name.className = "t-name";
+  name.textContent = it.name;
+  const layers = document.createElement("p");
+  layers.className = "t-layers";
+  layers.textContent = RINGS[it.ring].name;
+  const desc = document.createElement("p");
+  desc.className = "t-desc";
+  desc.textContent = it.text;
+  tip.append(kind, name, layers, desc);
+  tip.classList.add("show");
+
+  const r = g.getBoundingClientRect();
+  const tw = tip.offsetWidth, th = tip.offsetHeight;
+  const left = Math.min(Math.max(8, r.left + r.width / 2 - tw / 2), window.innerWidth - tw - 8);
+  let top = r.bottom + 8;
+  if (top + th > window.innerHeight - 8) top = Math.max(8, r.top - th - 8);
+  tip.style.left = left + "px";
+  tip.style.top = top + "px";
+}
+
+function hideTip() {
+  if (!pinned) tip.classList.remove("show");
+}
+
+function highlightItem(n, on) {
+  const li = document.querySelector('#factors li[data-n="' + n + '"]');
+  if (li) li.classList.toggle("hl", on);
+}
+
+function renderDots() {
+  ITEMS.forEach(it => {
+    const g = document.createElementNS(SVG_NS, "g");
+    g.setAttribute("class", "dot");
+    g.setAttribute("tabindex", "0");
+    g.setAttribute("role", "button");
+    g.setAttribute("aria-label", it.name + ". " + RINGS[it.ring].name + ".");
+    g.dataset.n = it.n;
+    g.dataset.ring = it.ring;
+
+    const hit = document.createElementNS(SVG_NS, "circle");
+    hit.setAttribute("class", "hit");
+    hit.setAttribute("cx", it.x);
+    hit.setAttribute("cy", it.y);
+    hit.setAttribute("r", "20");
+
+    const mark = document.createElementNS(SVG_NS, "circle");
+    mark.setAttribute("class", "mark");
+    mark.setAttribute("cx", it.x);
+    mark.setAttribute("cy", it.y);
+    mark.setAttribute("r", "6");
+
+    const label = document.createElementNS(SVG_NS, "text");
+    label.setAttribute("class", "name");
+    label.setAttribute("x", it.lx);
+    label.setAttribute("y", it.ly);
+    label.setAttribute("text-anchor", it.anchor);
+    label.textContent = it.short;
+
+    g.append(hit, mark, label);
+
+    g.addEventListener("mouseenter", () => {
+      highlightItem(it.n, true);
+      if (!pinned) showTip(g, it);
+    });
+    g.addEventListener("mouseleave", () => {
+      highlightItem(it.n, false);
+      hideTip();
+    });
+    g.addEventListener("focus", () => { if (!pinned) showTip(g, it); });
+    g.addEventListener("blur", hideTip);
+    g.addEventListener("click", e => {
+      e.stopPropagation();
+      if (pinned) pinned.g.classList.remove("pinned");
+      if (pinned && pinned.n === it.n) {
+        pinned = null;
+        tip.classList.remove("show");
+        return;
+      }
+      pinned = { n: it.n, g: g };
+      g.classList.add("pinned");
+      showTip(g, it);
+    });
+    g.addEventListener("keydown", e => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        g.dispatchEvent(new MouseEvent("click"));
+      }
+    });
+
+    dotsEl.appendChild(g);
+  });
+}
+
+function renderList() {
+  ITEMS.forEach(it => {
+    const li = document.createElement("li");
+    li.dataset.n = it.n;
+    const name = document.createElement("p");
+    name.className = "f-name";
+    name.textContent = it.n + ". " + it.name;
+    const layers = document.createElement("p");
+    layers.className = "f-layers";
+    layers.textContent = RINGS[it.ring].name;
+    const text = document.createElement("p");
+    text.className = "f-text";
+    text.textContent = it.text;
+    li.append(name, layers, text);
+    factorsEl.appendChild(li);
+  });
+}
+
+function renderActivity() {
+  const st = document.getElementById("status");
+  const left = ITEMS.length - Object.keys(placed).length;
+  if (chosen !== null) {
+    const it = ITEMS.find(i => i.n === chosen);
+    st.textContent = "Step 2: now click the box below to place “" + it.name + "”. Click the factor again to cancel.";
+  } else if (left === 0) {
+    st.textContent = "All eight placed. Press Check my answers, or click a factor to move it.";
+  } else {
+    st.textContent = "Step 1: click a factor below. " + left + " left to place.";
+  }
+
+  pool.replaceChildren();
+  ITEMS.forEach(it => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "factor-btn";
+    b.dataset.n = it.n;
+    b.textContent = placed[it.n] !== undefined
+      ? it.name + " (in: " + RINGS[placed[it.n]].name + ")"
+      : it.name;
+    b.setAttribute("aria-pressed", chosen === it.n ? "true" : "false");
+    if (placed[it.n] !== undefined) b.classList.add("placed");
+    b.addEventListener("click", () => {
+      if (placed[it.n] !== undefined) {
+        delete placed[it.n];
+        chosen = it.n;
+      } else {
+        chosen = chosen === it.n ? null : it.n;
+      }
+      feedback.textContent = "";
+      scoreEl.textContent = "";
+      renderActivity();
+    });
+    pool.appendChild(b);
+  });
+
+  ringBoxes.replaceChildren();
+  [1, 2, 3, 4].forEach(r => {
+    const box = document.createElement("button");
+    box.type = "button";
+    box.className = "ring-box" + (chosen !== null ? " ready" : "");
+    box.style.borderColor = RINGS[r].color;
+    box.addEventListener("click", () => {
+      if (chosen === null) return;
+      placed[chosen] = r;
+      chosen = null;
+      feedback.textContent = "";
+      scoreEl.textContent = "";
+      renderActivity();
+    });
+    const h = document.createElement("h3");
+    h.textContent = RINGS[r].name;
+    h.style.color = RINGS[r].color;
+    const ul = document.createElement("ul");
+    ITEMS.filter(it => placed[it.n] === r).forEach(it => {
+      const li = document.createElement("li");
+      li.textContent = it.name;
+      ul.appendChild(li);
+    });
+    box.append(h, ul);
+    ringBoxes.appendChild(box);
+  });
+}
+
+function isAccepted(it) {
+  const p = placed[it.n];
+  return p === it.ring || (it.alt || []).includes(p);
+}
+
+function check() {
+  const total = ITEMS.length;
+  if (Object.keys(placed).length < total) {
+    feedback.textContent = "Place all eight factors first. " + (total - Object.keys(placed).length) + " still to go.";
+    scoreEl.textContent = "";
+    return;
+  }
+  let right = 0;
+  const notes = [];
+  ITEMS.forEach(it => {
+    if (isAccepted(it)) {
+      right++;
+      if (placed[it.n] !== it.ring) notes.push(it.name + ": " + RINGS[placed[it.n]].name + " is also defensible. " + it.altNote);
+    } else {
+      notes.push(it.name + ": suggested box is " + RINGS[it.ring].name + ".");
+    }
+  });
+  scoreEl.textContent = right + " of " + total + " match the suggested box";
+  feedback.textContent = notes.length
+    ? notes.join(" ") + " Discuss why you placed these differently."
+    : "Every factor matches the suggested box. Consider whether a factor could fit in more than one box, and where.";
+  ITEMS.forEach(it => {
+    const b = pool.querySelector('.factor-btn[data-n="' + it.n + '"]');
+    if (b) b.classList.toggle("match", isAccepted(it));
+    if (b) b.classList.toggle("miss", !isAccepted(it));
+  });
+}
+
+function reset() {
+  Object.keys(placed).forEach(k => delete placed[k]);
+  chosen = null;
+  feedback.textContent = "";
+  scoreEl.textContent = "";
+  renderActivity();
+}
+
+function update() {
+  [1, 2, 3, 4].forEach(r => {
+    document.getElementById("rc-" + r).style.display = ringOn(r) ? "" : "none";
+  });
+  document.querySelectorAll(".dot").forEach(d => {
+    d.hidden = !ringOn(Number(d.dataset.ring));
+  });
+  document.querySelectorAll("#factors li").forEach(li => {
+    const it = ITEMS.find(i => i.n === Number(li.dataset.n));
+    li.classList.toggle("off", !ringOn(it.ring));
+  });
+}
+
+document.addEventListener("click", () => {
+  if (pinned) { pinned.g.classList.remove("pinned"); pinned = null; }
+  tip.classList.remove("show");
+});
+
+[1, 2, 3, 4].forEach(r => {
+  document.getElementById("ring-" + r).addEventListener("change", update);
+});
+document.getElementById("check").addEventListener("click", check);
+document.getElementById("reset").addEventListener("click", reset);
+
+renderDots();
+renderList();
+renderActivity();
+update();
+</script>
+</body>
+</html>
